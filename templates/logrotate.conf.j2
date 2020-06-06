@@ -1,0 +1,38 @@
+# {{ ansible_managed }}
+
+# see "man logrotate" for details
+# rotate log files weekly
+weekly
+
+{% if logrotate_global_su_user is defined and logrotate_global_su_user != '' and
+      logrotate_global_su_group is defined and logrotate_global_su_group != '' %}
+# use the syslog group by default, since this is the owning group
+# of /var/log/syslog.
+su root syslog
+{% endif %}
+
+# keep 4 weeks worth of backlogs
+rotate {{logrotate_global_rotate | default('2')}}
+
+{% if logrotate_global_create is defined and logrotate_global_create | bool == true -%}
+# create new (empty) log files after rotating old ones
+create
+{% endif %}
+
+{% if logrotate_global_dateext is defined and logrotate_global_dateext | bool == true -%}
+# use date as a suffix of the rotated file
+dateext
+{% endif %}
+
+{% if logrotate_global_compress is defined and logrotate_global_compress | bool == true -%}
+# uncomment this if you want your log files compressed
+compress
+{% endif %}
+
+{% if logrotate_global_tabooext is defined and logrotate_global_tabooext != '' %}
+tabooext + {{logrotate_global_tabooext | join(' ')}}
+# .pacorig .pacnew .pacsave
+{% endif %}
+
+# packages drop log rotation information into this directory
+include /etc/logrotate.d
