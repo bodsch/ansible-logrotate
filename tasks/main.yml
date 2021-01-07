@@ -4,27 +4,47 @@
   package:
     name: logrotate
     state: present
-#  when:
-#    logrotate_scripts is defined and logrotate_scripts|length > 0
 
-- name: setup logrotate.conf scripts
+- name: create logrotate.conf
   template:
     src: logrotate.conf.j2
     dest: /etc/logrotate.conf
 
-- name: setup logrotate.d scripts
+- name: create logrotate.d configs
   template:
     src: logrotate.d.j2
-    dest: "{{ logrotate_conf_dir }}/{{ item.name }}"
+    dest: "{{ logrotate_conf_dir }}/{{ item.key }}"
   loop:
-    "{{ logrotate_scripts }}"
+    "{{ logrotate_scripts | dict2items }}"
   when:
     logrotate_scripts is defined
 
-- name: Ensure systemd service unit is stopped and disabled
-  service:
-    name: logrotate.service
-    state: stopped
-    enabled: false
-  ignore_errors: true
-  when: ( ansible_service_mgr is defined and ansible_service_mgr | lower == "systemd" )
+- name: systemd service handling
+  block:
+    - name: set systemd states
+      set_fact:
+        systemd_state: "{{ 'stopped' if logroate_disable_systemd else 'omit' }}"
+        systemd_enabled: "{{ 'false' if logroate_disable_systemd else 'true' }}"
+
+    - debug:
+        var: "{{ item }}"
+      when: item is defined
+      loop:
+        - systemd_state
+        - systemd_enabled
+
+    - name: handle systemd timer unit is stopped and disabled
+      service:
+        name: logrotate.timer
+        # state: "{{ systemd_state }}"
+        enabled: "{{ systemd_enabled }}"
+      ignore_errors: true
+
+  when:
+    - ansible_service_mgr | lower == "systemd"
+
+- name: write cron.daily
+  template:
+    src: cron_logrotate.j2
+    dest: /etc/cron.daily/logrotate
+    mode: 0755

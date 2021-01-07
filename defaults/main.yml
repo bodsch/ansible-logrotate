@@ -1,12 +1,14 @@
 ---
 
-logrotate_global_su_user: ''
-logrotate_global_su_group: ''
-logrotate_global_rotate: 2
-logrotate_global_create: true
-logrotate_global_dateext: true
-logrotate_global_compress: true
-logrotate_global_tabooext: []
+logrotate_global:
+  rotate_log: weekly
+  su_user: ''
+  su_group: ''
+  rotate: 2
+  create: true
+  dateext: true
+  compress: true
+  tabooext: []
 
 logrotate_conf_dir: "/etc/logrotate.d"
 logrotate_scripts: []
@@ -20,3 +22,5 @@ logrotate_scripts: []
 #      - delaycompress
 #    scripts:
 #      postrotate: invoke-rc.d syslog-ng reload > /dev/null
+
+logroate_disable_systemd: true
