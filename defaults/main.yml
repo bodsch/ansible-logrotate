@@ -2,6 +2,7 @@
 
 logrotate_global:
   rotate_log: weekly
+  rotate_size: 20M
   su_user: ''
   su_group: ''
   rotate: 2

@@ -3,14 +3,16 @@
 
 # see "man logrotate" for details
 # rotate log files weekly
-{% if logrotate_global.rotate_log in rotate_log_attr %}
+{% if logrotate_global.rotate_log is defined and logrotate_global.rotate_log in rotate_log_attr %}
 {{ logrotate_global.rotate_log }}
 {% else %}
 weekly
 {% endif %}
 
-{% if logrotate_global.su_user is defined and logrotate_global.su_user | length != 0 and
-      logrotate_global.su_group is defined and logrotate_global.su_group | length != 0 %}
+{% if logrotate_global.su_user is defined and
+      logrotate_global.su_user | length != 0 and
+      logrotate_global.su_group is defined and
+      logrotate_global.su_group | length != 0 %}
 # use the syslog group by default, since this is the owning group
 # of /var/log/syslog.
 su {{ logrotate_global.su_user }} {{ logrotate_global.su_group }}
@@ -18,6 +20,15 @@ su {{ logrotate_global.su_user }} {{ logrotate_global.su_group }}
 
 # keep 4 weeks worth of backlogs
 rotate {{ logrotate_global.rotate | default('2') }}
+
+# restrict maximum size of log files
+#size 20M
+
+# create new (empty) log files after rotating old ones
+create
+
+# Logs are moved into directory for rotation
+# olddir /var/log/archive
 
 {% if logrotate_global.create is defined and logrotate_global.create | bool == true -%}
 # create new (empty) log files after rotating old ones
