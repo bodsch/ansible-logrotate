@@ -45,8 +45,8 @@ jobs:
         distro:
           - debian9
           - debian10
-          - ubuntu1804
-          - ubuntu2004
+          # - ubuntu1804
+          # - ubuntu2004
           - centos8
         python-version:
           - '3.7'

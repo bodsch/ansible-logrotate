@@ -1,5 +1,7 @@
 # logrotate
 
+[![CI](https://github.com/bodsch/ansible-logrotate/workflows/CI/badge.svg)](https://github.com/bodsch/ansible-logrotate/actions?query=workflow%3ACI)
+
 Installs logrotate and provides an easy way to setup additional logrotate scripts by
 specifying a list of directives.
 
@@ -95,4 +97,4 @@ vagrant up --provision
 
 ## License
 
-[Apache](https://raw.githubusercontent.com/nickhammond/logrotate/master/LICENSE)
+[Apache](https://raw.githubusercontent.com/bodsch/ansible-logrotate/master/LICENSE)
