@@ -1,9 +1,17 @@
-# logrotate
 
-[![CI](https://github.com/bodsch/ansible-logrotate/workflows/CI/badge.svg)](https://github.com/bodsch/ansible-logrotate/actions?query=workflow%3ACI)
 
 Installs logrotate and provides an easy way to setup additional logrotate scripts by
 specifying a list of directives.
+
+
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/bodsch/ansible-logrotate/CI/master)][ci]
+[![GitHub issues](https://img.shields.io/github/issues/bodsch/ansible-logrotate)][issues]
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/bodsch/ansible-logrotate)][releases]
+
+[ci]: https://github.com/bodsch/ansible-logrotate/actions
+[issues]: https://github.com/bodsch/ansible-logrotate/issues?q=is%3Aopen+is%3Aissue
+[releases]: https://github.com/bodsch/ansible-logrotate/releases
+
 
 ## Requirements
 
