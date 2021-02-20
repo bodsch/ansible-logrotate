@@ -42,11 +42,17 @@ jobs:
           sudo pip3 install ansible ansible-lint yamllint flake8
 
       - name: YAMLlint
-        run: yamllint .
+        run: |
+          yamllint --version
+          yamllint .
       - name: ansible-lint
-        run: ansible-lint .
+        run: |
+          ansible-lint --version
+          ansible-lint .
       - name: flake8
-        run: flake8 .
+        run: |
+          flake8 --version
+          flake8 .
 
   test:
     name: "${{ matrix.image }} / python: ${{ matrix.python-version }}, ansible: ${{ matrix.ansible-version }}"
