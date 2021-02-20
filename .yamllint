@@ -1,5 +1,6 @@
 ---
 extends: default
+
 rules:
   line-length:
     max: 195
@@ -14,10 +15,12 @@ rules:
     spaces: 2
   comments: disable
   comments-indentation: disable
+  empty-lines:
+    level: warning
+  empty-values:
+    level: warning
 
 ignore: |
-  tests/
-  molecule/
-  .molecule/
-  .travis.yml
   .tox
+  .github
+  molecule

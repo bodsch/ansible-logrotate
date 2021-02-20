@@ -1,7 +1,14 @@
 ---
+# https://docs.github.com/en/actions/reference/events-that-trigger-workflows
+
 name: CI
-'on':
+
+on:
+  # Trigger the workflow on push or pull request,
+  # but only for the main branch
   pull_request:
+    branches:
+      - main
   push:
     branches:
       - master
