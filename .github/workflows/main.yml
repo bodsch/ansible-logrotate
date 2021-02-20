@@ -42,9 +42,9 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y python3-pip python3-setuptools
+          sudo pip3 install --upgrade PyYAML
           sudo pip3 install ansible ansible-lint yamllint flake8
           sudo pip3 list --outdated --format=columns
-          sudo pip3 install --upgrade PyYAML
 
       - name: YAMLlint
         run: |
