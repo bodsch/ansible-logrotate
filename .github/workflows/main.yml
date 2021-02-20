@@ -42,7 +42,10 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y python3-pip python3-setuptools
-          sudo pip3 install ansible ansible-lint yamllint flake8 PyYAML
+          sudo pip3 install ansible ansible-lint yamllint flake8
+          sudo pip3 list --outdated
+          sudo pip3 list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1 | xargs -n1 pip3 install -U
+
 
       - name: YAMLlint
         run: |
