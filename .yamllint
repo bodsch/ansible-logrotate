@@ -1,24 +1,44 @@
 ---
 extends: default
 
+# rules:
+#   line-length:
+#     max: 195
+#     level: warning
+#   braces:
+#     min-spaces-inside: 0
+#     max-spaces-inside: 1
+#   brackets:
+#     min-spaces-inside: 0
+#     max-spaces-inside: 1
+#   indentation:
+#     spaces: 2
+#   comments: disable
+#   comments-indentation: disable
+#   empty-lines:
+#     level: warning
+#   empty-values:
+#     level: warning
+
 rules:
-  line-length:
-    max: 195
-    level: warning
-  braces:
-    min-spaces-inside: 0
-    max-spaces-inside: 1
-  brackets:
-    min-spaces-inside: 0
-    max-spaces-inside: 1
-  indentation:
-    spaces: 2
+  braces: {max-spaces-inside: 1, level: error}
+  brackets: {max-spaces-inside: 1, level: error}
+  colons: {max-spaces-after: -1, level: error}
+  commas: {max-spaces-after: -1, level: error}
   comments: disable
   comments-indentation: disable
-  empty-lines:
-    level: warning
-  empty-values:
-    level: warning
+  document-start: disable
+  empty-lines: {max: 3, level: error}
+  hyphens: {level: error}
+  indentation: disable
+  key-duplicates: enable
+  line-length: disable
+  new-line-at-end-of-file: disable
+  new-lines: {type: unix}
+  trailing-spaces: disable
+  truthy: disable
+
+
 
 ignore: |
   .tox
