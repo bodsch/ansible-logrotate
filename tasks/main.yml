@@ -28,13 +28,6 @@
         systemd_state: "{{ 'stopped' if logroate_disable_systemd else 'omit' }}"
         systemd_enabled: "{{ 'false' if logroate_disable_systemd else 'true' }}"
 
-    - debug:
-        var: "{{ item }}"
-      when: item is defined
-      loop:
-        - systemd_state
-        - systemd_enabled
-
     - name: handle systemd timer unit is stopped and disabled
       service:
         name: logrotate.timer
