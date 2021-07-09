@@ -10,7 +10,7 @@ import testinfra.utils.ansible_runner
 
 
 testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
-    os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('all')
+    os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('instance')
 
 
 def pp_json(json_thing, sort=True, indents=2):
@@ -47,17 +47,16 @@ def get_vars(host):
 
     defaults_vars = host.ansible("include_vars", file_defaults).get("ansible_facts").get("role_defaults")
     vars_vars = host.ansible("include_vars", file_vars).get("ansible_facts").get("role_vars")
-    distibution_vars = host.ansible("include_vars", file_distibution).get("ansible_facts").get("role_distibution")
+    molecule_vars = host.ansible("include_vars", file_molecule).get("ansible_facts").get("test_vars")
 
     ansible_vars = defaults_vars
     ansible_vars.update(vars_vars)
-    ansible_vars.update(distibution_vars)
+    ansible_vars.update(molecule_vars)
 
     templar = Templar(loader=DataLoader(), variables=ansible_vars)
     result = templar.template(ansible_vars, fail_on_undefined=False)
 
     return result
-
 
 
 @pytest.mark.parametrize("dirs", [
