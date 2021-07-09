@@ -13,15 +13,7 @@ logrotate_global:
 
 logrotate_conf_dir: "/etc/logrotate.d"
 logrotate_scripts: []
-#  - name: syslog-ng
-#    path: '/var/log/syslog.log /var/log/daemon.log /var/log/kern.log /var/log/messages.log /var/log/warn.log /var/log/authlog.log'
-#    options:
-#      - weekly
-#      - rotate 4
-#      - missingok
-#      - notifempty
-#      - delaycompress
-#    scripts:
-#      postrotate: invoke-rc.d syslog-ng reload > /dev/null
 
 logroate_disable_systemd: true
+
+...

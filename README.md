@@ -12,6 +12,13 @@ specifying a list of directives.
 [issues]: https://github.com/bodsch/ansible-logrotate/issues?q=is%3Aopen+is%3Aissue
 [releases]: https://github.com/bodsch/ansible-logrotate/releases
 
+## tested operating systems
+
+* Debian 9 / 10
+* Ubuntu 18.04 / 20.04
+* CentOS 7 / 8
+* Oracle Linux 8
+* Arch Linux
 
 ## Requirements
 
@@ -21,11 +28,11 @@ None
 
 **logrotate_scripts**: A list of logrotate scripts and the directives to use for the rotation.
 
-* name - The name of the script that goes into /etc/logrotate.d/
-* path - Path to point logrotate to for the log rotation
-* paths - A list of paths to point logrotate to for the log rotation.
-* options - List of directives for logrotate, view the logrotate man page for specifics
-* scripts - Dict of scripts for logrotate (see Example below)
+* `name` - The name of the script that goes into /etc/logrotate.d/
+* `path` - Path to point logrotate to for the log rotation
+* `paths` - A list of paths to point logrotate to for the log rotation.
+* `options` - List of directives for logrotate, view the logrotate man page for specifics
+* `scripts` - Dict of scripts for logrotate (see Example below)
 
 ```
 logrotate_scripts:
@@ -92,16 +99,37 @@ Setting up logrotate for additional Nginx logs, with postrotate script.
     - ansible-logrotate
 ```
 
-## Testing locally
+## Tests
 
-This role is already configured to run on travis CI within a test playbook but it's useful to be able to run and debug a role locally which can be done via Vagrant and the `ansible_local` provisioner.
+### Testmatrix
 
-To run the test playbook locally within a Vagrant virtual machine:
+|                                | Python Version | Ansible Version |
+| :----------------------        | :------        | :------         |
+| `py37-ansible28`               | *python 3.7*   | *ansible 2.8*   |
+| `py38-ansible28`               | *python 3.8*   | *ansible 2.8*   |
+| `py38-ansible29`               | *python 3.8*   | *ansible 2.9*   |
 
-```
-cd tests
-vagrant up --provision
-```
+`tox -e py38-ansible29 -- molecule test --all`
+
+
+### Syntactic tests
+A syntactical test checks the correctness of the created YAML files.
+
+`tox -e py38-ansible29 -- molecule lint --all`
+
+### Test without deleting the test instance
+
+`tox -e py38-ansible29 -- molecule converge --all`
+
+### Validierung
+
+`tox -e py38-ansible29 -- molecule verify --all`
+
+## Delete the Docker Container
+
+`tox -e py38-ansible29 -- molecule destroy --all`
+
+
 
 ## License
 

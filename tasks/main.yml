@@ -1,5 +1,9 @@
 ---
 
+- name: update package cache
+  package:
+    update_cache: true
+
 - name: install logrotate
   package:
     name: logrotate
@@ -19,7 +23,8 @@
   loop:
     "{{ logrotate_scripts | dict2items }}"
   when:
-    logrotate_scripts is defined
+    - logrotate_scripts is defined
+    - logrotate_scripts | length > 0
 
 - name: systemd service handling
   block:
@@ -31,14 +36,25 @@
     - name: handle systemd timer unit is stopped and disabled
       service:
         name: logrotate.timer
+        state: "{{ systemd_state }}"
         enabled: "{{ systemd_enabled }}"
-      ignore_errors: true
-
+      failed_when: false
+      when:
+        - not ansible_distribution_major_version == 7
   when:
     - ansible_service_mgr | lower == "systemd"
+    - logroate_disable_systemd
+
+- name: ensure that /etc/cron.daily is present
+  file:
+    state: directory
+    path: /etc/cron.daily
+    mode: 0755
 
 - name: write cron.daily
   template:
     src: cron_logrotate.j2
     dest: /etc/cron.daily/logrotate
     mode: 0755
+
+...
