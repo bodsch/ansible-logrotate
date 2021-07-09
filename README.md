@@ -16,9 +16,8 @@ specifying a list of directives.
 
 * Debian 9 / 10
 * Ubuntu 18.04 / 20.04
-* CentOS 7 / 8
+* CentOS 8
 * Oracle Linux 8
-* Arch Linux
 
 ## Requirements
 
