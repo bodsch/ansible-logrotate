@@ -1,4 +1,5 @@
 
+# Ansible Role:  `logrotate`
 
 Installs logrotate and provides an easy way to setup additional logrotate scripts by
 specifying a list of directives.
@@ -33,7 +34,7 @@ None
 * `options` - List of directives for logrotate, view the logrotate man page for specifics
 * `scripts` - Dict of scripts for logrotate (see Example below)
 
-```
+```yaml
 logrotate_scripts:
   - name: rails
     path: "/srv/current/log/*.log"
@@ -46,7 +47,7 @@ logrotate_scripts:
       - copytruncate
 ```
 
-```
+```yaml
 logrotate_scripts:
   - name: rails
     paths:
@@ -69,7 +70,7 @@ None
 
 Setting up logrotate for additional Nginx logs, with postrotate script.
 
-```
+```yaml
 - hosts: all
   vars:
     logrotate_scripts:
@@ -108,25 +109,35 @@ Setting up logrotate for additional Nginx logs, with postrotate script.
 | `py38-ansible28`               | *python 3.8*   | *ansible 2.8*   |
 | `py38-ansible29`               | *python 3.8*   | *ansible 2.9*   |
 
-`tox -e py38-ansible29 -- molecule test --all`
+```bash
+tox -e py38-ansible29 -- molecule test --all
+```
 
 
 ### Syntactic tests
 A syntactical test checks the correctness of the created YAML files.
 
-`tox -e py38-ansible29 -- molecule lint --all`
+```bash
+tox -e py38-ansible29 -- molecule lint --all
+```
 
 ### Test without deleting the test instance
 
-`tox -e py38-ansible29 -- molecule converge --all`
+```bash
+tox -e py38-ansible29 -- molecule converge --all
+```
 
 ### Validierung
 
-`tox -e py38-ansible29 -- molecule verify --all`
+```bash
+tox -e py38-ansible29 -- molecule verify --all
+```
 
 ## Delete the Docker Container
 
-`tox -e py38-ansible29 -- molecule destroy --all`
+```bash
+tox -e py38-ansible29 -- molecule destroy --all
+```
 
 
 
