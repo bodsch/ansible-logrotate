@@ -15,6 +15,21 @@
     dest: /etc/logrotate.conf
     mode: 0644
 
+- name: create directory {{ logrotate_conf_dir }}
+  file:
+    path: "{{ logrotate_conf_dir }}"
+    state: directory
+    mode: 0755
+
+- name: create directory {{ logrotate_global.archive_directory }}
+  file:
+    path: "{{ logrotate_global.archive_directory }}"
+    state: directory
+    mode: 0755
+  when:
+    - logrotate_global.archive_directory is defined
+    - logrotate_global.archive_directory | length > 0
+
 - name: create logrotate.d configs
   template:
     src: logrotate.d.j2

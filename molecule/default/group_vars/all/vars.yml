@@ -44,6 +44,14 @@ logrotate_scripts:
       postrotate: /bin/kill -USR1 $(cat /run/icinga2/icinga2.pid 2> /dev/null) 2> /dev/null || true
 
   nofunc:
+    options:
+      - daily
+
+  noexists:
+    description: |
+      this logrotate schould be absent
     state: absent
     options:
       - daily
+
+...
