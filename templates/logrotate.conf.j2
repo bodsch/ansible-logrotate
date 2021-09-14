@@ -45,8 +45,10 @@ dateext
 compress
 {% endif %}
 
-{% if logrotate_global.tabooext is defined and logrotate_global.tabooext != '' %}
-tabooext + {{logrotate_global.tabooext | join(' ')}}
+{% if logrotate_global.tabooext is defined and
+      logrotate_global.tabooext | type == 'list' and
+      logrotate_global.tabooext | count >= 1 %}
+tabooext + {{ logrotate_global.tabooext | join(' ') }}
 {# .pacorig .pacnew .pacsave #}
 {% endif %}
 

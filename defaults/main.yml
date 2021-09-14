@@ -12,7 +12,7 @@ logrotate_global:
   tabooext: []
 
 logrotate_conf_dir: "/etc/logrotate.d"
-logrotate_scripts: []
+logrotate_scripts: {}
 
 logroate_disable_systemd: true
 

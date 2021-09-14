@@ -28,7 +28,7 @@ None
 
 **logrotate_scripts**: A list of logrotate scripts and the directives to use for the rotation.
 
-* `name` - The name of the script that goes into /etc/logrotate.d/
+* `state` - create (`present`) or remove (`absent`) configuration. default: `present`
 * `path` - Path to point logrotate to for the log rotation
 * `paths` - A list of paths to point logrotate to for the log rotation.
 * `options` - List of directives for logrotate, view the logrotate man page for specifics
@@ -36,30 +36,35 @@ None
 
 ```yaml
 logrotate_scripts:
-  - name: rails
-    path: "/srv/current/log/*.log"
+  audit:
+    path: /var/log/audit/audit.log
     options:
       - weekly
-      - size 25M
+      - rotate 4
       - missingok
-      - compress
+      - notifempty
       - delaycompress
-      - copytruncate
+    scripts:
+      postrotate: /etc/init.d/auditd restart2> /dev/null
 ```
 
 ```yaml
 logrotate_scripts:
-  - name: rails
+  nginx:
     paths:
-        - "/srv/current/scare.log"
-        - "/srv/current/hide.log"
+      - /var/log/nginx/*/*.log
+      - /var/log/nginx/*.log
     options:
       - weekly
-      - size 25M
+      - rotate 2
       - missingok
+      - notifempty
       - compress
-      - delaycompress
-      - copytruncate
+      - sharedscripts
+      - create 0644 http log
+      - su root http
+    scripts:
+      postrotate: test ! -r /run/nginx.pid || kill -USR1 $(cat /run/nginx.pid)
 ```
 
 ## Dependencies
@@ -72,29 +77,6 @@ Setting up logrotate for additional Nginx logs, with postrotate script.
 
 ```yaml
 - hosts: all
-  vars:
-    logrotate_scripts:
-      - name: nginx-options
-        path: /var/log/nginx/options.log
-        options:
-          - daily
-          - weekly
-          - size 25M
-          - rotate 7
-          - missingok
-          - compress
-          - delaycompress
-          - copytruncate
-
-      - name: nginx-scripts
-        path: /var/log/nginx/scripts.log
-        options:
-          - daily
-          - weekly
-          - size 25M
-        scripts:
-          postrotate: "echo test"
-
   roles:
     - ansible-logrotate
 ```

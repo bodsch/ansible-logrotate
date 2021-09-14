@@ -22,9 +22,25 @@
     mode: 0644
   loop:
     "{{ logrotate_scripts | dict2items }}"
+  loop_control:
+    label: "{{ item.key }}"
   when:
     - logrotate_scripts is defined
     - logrotate_scripts | length > 0
+    - item.value.state | default('present') == 'present'
+
+- name: remove logrotate.d configs
+  file:
+    dest: "{{ logrotate_conf_dir }}/{{ item.key }}"
+    state: absent
+  loop:
+    "{{ logrotate_scripts | dict2items }}"
+  loop_control:
+    label: "{{ item.key }}"
+  when:
+    - logrotate_scripts is defined
+    - logrotate_scripts | length > 0
+    - item.value.state | default('present') == 'absent'
 
 - name: systemd service handling
   block:
