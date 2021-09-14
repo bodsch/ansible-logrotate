@@ -13,20 +13,44 @@ specifying a list of directives.
 [issues]: https://github.com/bodsch/ansible-logrotate/issues?q=is%3Aopen+is%3Aissue
 [releases]: https://github.com/bodsch/ansible-logrotate/releases
 
-## tested operating systems
 
-* Debian 9 / 10
-* Ubuntu 18.04 / 20.04
-* CentOS 8
-* Oracle Linux 8
-
-## Requirements
+## Requirements & Dependencies
 
 None
 
-## Role Variables
+### Operating systems
 
-**logrotate_scripts**: A list of logrotate scripts and the directives to use for the rotation.
+Tested on
+
+* Debian 9 / 10
+* Ubuntu 18.04 / 20.04
+* CentOS 7 / 8
+* Oracle Linux 7 / 8
+* Arch Linux
+
+## usage
+
+```yaml
+logrotate_global:
+  rotate_log: weekly
+  rotate_size: ''
+  su_user: ''
+  su_group: ''
+  rotate: 2
+  create: true
+  dateext: true
+  compress: true
+  tabooext: []
+  archive_directory: ''
+
+logrotate_conf_dir: "/etc/logrotate.d"
+
+logrotate_scripts: {}
+
+logroate_disable_systemd: true
+```
+
+###  **logrotate_scripts**: A dictionary of logrotate scripts and the directives to use for the rotation.
 
 * `state` - create (`present`) or remove (`absent`) configuration. default: `present`
 * `path` - Path to point logrotate to for the log rotation
@@ -67,19 +91,11 @@ logrotate_scripts:
       postrotate: test ! -r /run/nginx.pid || kill -USR1 $(cat /run/nginx.pid)
 ```
 
-## Dependencies
-
-None
-
 ## Example Playbook
 
-Setting up logrotate for additional Nginx logs, with postrotate script.
+see into [molecule test](molecule/default/converge.yml) and [configuration](molecule/default/group_vars/all/vars.yml)
 
-```yaml
-- hosts: all
-  roles:
-    - ansible-logrotate
-```
+
 
 ## Tests
 

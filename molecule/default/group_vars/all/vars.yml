@@ -1,6 +1,8 @@
 ---
 
-logrotate_global_dateext: false
+logrotate_global:
+  dateext: false
+  rotate_size: 20M
 
 logrotate_scripts:
   audit:

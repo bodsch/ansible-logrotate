@@ -23,7 +23,7 @@ su {{ logrotate_global.su_user }} {{ logrotate_global.su_group }}
 rotate {{ logrotate_global.rotate | default('2') }}
 
 {% if logrotate_global.rotate_size is defined and
-      logrotate_global.rotate_size | int != 0 %}
+      logrotate_global.rotate_size | length != 0 %}
 # restrict maximum size of log files
 size {{ logrotate_global.rotate_size | default('20M') }}
 {% endif %}

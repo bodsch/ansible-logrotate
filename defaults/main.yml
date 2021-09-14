@@ -33,7 +33,7 @@ logrotate_global:
   # This option is mutually exclusive with the time interval options,
   # and it causes log files to be rotated without regard for the last rotation time,
   # if specified after the time criteria (the last specified option takes the precedence).
-  rotate_size: 20M
+  rotate_size: '' # 20M
   # Rotate log files set under this user and group instead of using default user/group (usually root)
   # su_user specifies the user used for rotation and
   # su_group specifies the group used for rotation
