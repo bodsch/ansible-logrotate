@@ -1,32 +1,31 @@
 # {{ ansible_managed }}
+
 {% set scripts_attr = ['postrotate', 'prerotate'] %}
 
-{% for v in item.value -%}
-
-{%- if v.description is defined %}
-# {{ v.description }}
+{%- if item.value.description is defined %}
+# {{ item.value.description }}
 {% endif -%}
 
-{% if 'path' in v or 'paths' in v -%}
+{% if item.value.path is defined or item.value.paths is defined %}
 
-{% if 'path' in v %}
-{{ v.path }}
-{% elif 'paths' in v -%}
-{% for path in v.paths -%}
+{% if item.value.path is defined %}
+{{ item.value.path }}
+{% elif item.value.paths %}
+{% for path in item.value.paths -%}
 {{ path }}
 {% endfor -%}
-{% endif -%}
+{% endif %}
 {
-{% if v.options is defined %}
+{% if item.value.options is defined %}
 {# all logrotate options #}
-  {% for option in v.options -%}
+  {% for option in item.value.options -%}
   {{ option }}
   {% endfor -%}
 {% endif %}
-{% if v.scripts is defined %}
 
+{% if item.value.scripts is defined %}
 {# pre- or postrotate scripts #}
-{% for name, script in v.scripts.items() %}
+{% for name, script in item.value.scripts.items() %}
 {% if name in scripts_attr %}
   {{ name }}
     {{ script }}
@@ -34,7 +33,6 @@
 {% endif %}
 {% endfor %}
 {% endif %}
-}
 
+}
 {% endif %}
-{% endfor %}

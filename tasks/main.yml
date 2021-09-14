@@ -1,60 +1,29 @@
 ---
 
-- name: update package cache
-  package:
-    update_cache: true
+- include: prepare.yaml
+  become: true
+  tags:
+    - logrotate_prepare
+    - logrotate_configure
 
-- name: install logrotate
-  package:
-    name: logrotate
-    state: present
+- include: install.yaml
+  become: true
+  tags:
+    - logrotate_install
 
-- name: create logrotate.conf
-  template:
-    src: logrotate.conf.j2
-    dest: /etc/logrotate.conf
-    mode: 0644
+- include: configure.yaml
+  become: true
+  tags:
+    - logrotate_configure
 
-- name: create logrotate.d configs
-  template:
-    src: logrotate.d.j2
-    dest: "{{ logrotate_conf_dir }}/{{ item.key }}"
-    mode: 0644
-  loop:
-    "{{ logrotate_scripts | dict2items }}"
-  when:
-    - logrotate_scripts is defined
-    - logrotate_scripts | length > 0
+- name: handle systemd
+  include_tasks: systemd.yaml
+  tags:
+    - logrotate_systemd
 
-- name: systemd service handling
-  block:
-    - name: set systemd states
-      set_fact:
-        systemd_state: "{{ 'stopped' if logroate_disable_systemd else 'omit' }}"
-        systemd_enabled: "{{ 'false' if logroate_disable_systemd else 'true' }}"
-
-    - name: handle systemd timer unit is stopped and disabled
-      service:
-        name: logrotate.timer
-        state: "{{ systemd_state }}"
-        enabled: "{{ systemd_enabled }}"
-      failed_when: false
-      when:
-        - not ansible_distribution_major_version == 7
-  when:
-    - ansible_service_mgr | lower == "systemd"
-    - logroate_disable_systemd
-
-- name: ensure that /etc/cron.daily is present
-  file:
-    state: directory
-    path: /etc/cron.daily
-    mode: 0755
-
-- name: write cron.daily
-  template:
-    src: cron_logrotate.j2
-    dest: /etc/cron.daily/logrotate
-    mode: 0755
+- name: create cron job
+  include_tasks: cron.yaml
+  tags:
+    - logrotate_cron
 
 ...

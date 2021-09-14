@@ -13,22 +13,46 @@ specifying a list of directives.
 [issues]: https://github.com/bodsch/ansible-logrotate/issues?q=is%3Aopen+is%3Aissue
 [releases]: https://github.com/bodsch/ansible-logrotate/releases
 
-## tested operating systems
 
-* Debian 9 / 10
-* Ubuntu 18.04 / 20.04
-* CentOS 8
-* Oracle Linux 8
-
-## Requirements
+## Requirements & Dependencies
 
 None
 
-## Role Variables
+### Operating systems
 
-**logrotate_scripts**: A list of logrotate scripts and the directives to use for the rotation.
+Tested on
 
-* `name` - The name of the script that goes into /etc/logrotate.d/
+* Debian 9 / 10
+* Ubuntu 18.04 / 20.04
+* CentOS 7 / 8
+* Oracle Linux 7 / 8
+* Arch Linux
+
+## usage
+
+```yaml
+logrotate_global:
+  rotate_log: weekly
+  rotate_size: ''
+  su_user: ''
+  su_group: ''
+  rotate: 2
+  create: true
+  dateext: true
+  compress: true
+  tabooext: []
+  archive_directory: ''
+
+logrotate_conf_dir: "/etc/logrotate.d"
+
+logrotate_scripts: {}
+
+logroate_disable_systemd: true
+```
+
+###  **logrotate_scripts**: A dictionary of logrotate scripts and the directives to use for the rotation.
+
+* `state` - create (`present`) or remove (`absent`) configuration. default: `present`
 * `path` - Path to point logrotate to for the log rotation
 * `paths` - A list of paths to point logrotate to for the log rotation.
 * `options` - List of directives for logrotate, view the logrotate man page for specifics
@@ -36,68 +60,42 @@ None
 
 ```yaml
 logrotate_scripts:
-  - name: rails
-    path: "/srv/current/log/*.log"
+  audit:
+    path: /var/log/audit/audit.log
     options:
       - weekly
-      - size 25M
+      - rotate 4
       - missingok
-      - compress
+      - notifempty
       - delaycompress
-      - copytruncate
+    scripts:
+      postrotate: /etc/init.d/auditd restart2> /dev/null
 ```
 
 ```yaml
 logrotate_scripts:
-  - name: rails
+  nginx:
     paths:
-        - "/srv/current/scare.log"
-        - "/srv/current/hide.log"
+      - /var/log/nginx/*/*.log
+      - /var/log/nginx/*.log
     options:
       - weekly
-      - size 25M
+      - rotate 2
       - missingok
+      - notifempty
       - compress
-      - delaycompress
-      - copytruncate
+      - sharedscripts
+      - create 0644 http log
+      - su root http
+    scripts:
+      postrotate: test ! -r /run/nginx.pid || kill -USR1 $(cat /run/nginx.pid)
 ```
-
-## Dependencies
-
-None
 
 ## Example Playbook
 
-Setting up logrotate for additional Nginx logs, with postrotate script.
+see into [molecule test](molecule/default/converge.yml) and [configuration](molecule/default/group_vars/all/vars.yml)
 
-```yaml
-- hosts: all
-  vars:
-    logrotate_scripts:
-      - name: nginx-options
-        path: /var/log/nginx/options.log
-        options:
-          - daily
-          - weekly
-          - size 25M
-          - rotate 7
-          - missingok
-          - compress
-          - delaycompress
-          - copytruncate
 
-      - name: nginx-scripts
-        path: /var/log/nginx/scripts.log
-        options:
-          - daily
-          - weekly
-          - size 25M
-        scripts:
-          postrotate: "echo test"
-
-  roles:
-    - ansible-logrotate
-```
 
 ## Tests
 

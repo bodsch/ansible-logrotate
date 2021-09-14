@@ -14,13 +14,15 @@ if [ -z "${LOGROTATE}" ]; then
 fi
 
 # this cronjob persists removals (but not purges)
-if [ ! -x /usr/sbin/logrotate ]; then
+if [ ! -x ${LOGROTATE} ]; then
     exit 0
 fi
 
-/usr/sbin/logrotate /etc/logrotate.conf
+${LOGROTATE} /etc/logrotate.conf
 EXITVALUE=$?
-if [ $EXITVALUE != 0 ]; then
+if [ $EXITVALUE != 0 ]
+then
     /usr/bin/logger -t logrotate "ALERT exited abnormally with [$EXITVALUE]"
 fi
+
 exit $EXITVALUE

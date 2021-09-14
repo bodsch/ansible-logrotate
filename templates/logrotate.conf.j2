@@ -3,7 +3,8 @@
 
 # see "man logrotate" for details
 # rotate log files weekly
-{% if logrotate_global.rotate_log is defined and logrotate_global.rotate_log in rotate_log_attr %}
+{% if logrotate_global.rotate_log is defined and
+      logrotate_global.rotate_log in rotate_log_attr %}
 {{ logrotate_global.rotate_log }}
 {% else %}
 weekly
@@ -21,21 +22,26 @@ su {{ logrotate_global.su_user }} {{ logrotate_global.su_group }}
 # keep 4 weeks worth of backlogs
 rotate {{ logrotate_global.rotate | default('2') }}
 
+{% if logrotate_global.rotate_size is defined and
+      logrotate_global.rotate_size | length != 0 %}
 # restrict maximum size of log files
-#size 20M
+size {{ logrotate_global.rotate_size | default('20M') }}
+{% endif %}
 
-# create new (empty) log files after rotating old ones
-create
-
+{% if logrotate_global.archive_directory is defined and
+      logrotate_global.archive_directory | length > 0 %}
 # Logs are moved into directory for rotation
-# olddir /var/log/archive
+olddir {{ logrotate_global.archive_directory }}
+{% endif %}
 
-{% if logrotate_global.create is defined and logrotate_global.create | bool == true -%}
+{% if logrotate_global.create is defined and
+      logrotate_global.create | bool == true -%}
 # create new (empty) log files after rotating old ones
 create
 {% endif %}
 
-{% if logrotate_global.dateext is defined and logrotate_global.dateext | bool == true -%}
+{% if logrotate_global.dateext is defined and
+      logrotate_global.dateext | bool == true -%}
 # use date as a suffix of the rotated file
 dateext
 {% endif %}
@@ -45,8 +51,10 @@ dateext
 compress
 {% endif %}
 
-{% if logrotate_global.tabooext is defined and logrotate_global.tabooext != '' %}
-tabooext + {{logrotate_global.tabooext | join(' ')}}
+{% if logrotate_global.tabooext is defined and
+      logrotate_global.tabooext | type == 'list' and
+      logrotate_global.tabooext | count >= 1 %}
+tabooext + {{ logrotate_global.tabooext | join(' ') }}
 {# .pacorig .pacnew .pacsave #}
 {% endif %}
 
