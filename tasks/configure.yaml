@@ -1,18 +1,21 @@
 ---
 
 - name: create logrotate.conf
+  become: true
   template:
     src: logrotate.conf.j2
     dest: /etc/logrotate.conf
     mode: 0644
 
 - name: create directory {{ logrotate_conf_dir }}
+  become: true
   file:
     path: "{{ logrotate_conf_dir }}"
     state: directory
     mode: 0755
 
 - name: create directory {{ logrotate_global.archive_directory }}
+  become: true
   file:
     path: "{{ logrotate_global.archive_directory }}"
     state: directory
@@ -22,6 +25,7 @@
     - logrotate_global.archive_directory | length > 0
 
 - name: create logrotate.d configs
+  become: true
   template:
     src: logrotate.d.j2
     dest: "{{ logrotate_conf_dir }}/{{ item.key }}"
@@ -36,6 +40,7 @@
     - item.value.state | default('present') == 'present'
 
 - name: remove logrotate.d configs
+  become: true
   file:
     dest: "{{ logrotate_conf_dir }}/{{ item.key }}"
     state: absent

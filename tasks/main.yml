@@ -1,23 +1,25 @@
 ---
 
-- include: prepare.yaml
-  become: true
+- name: prepare
+  include_tasks: prepare.yaml
   tags:
     - logrotate_prepare
     - logrotate_configure
 
-- include: install.yaml
-  become: true
+- name: install
+  include_tasks: install.yaml
   tags:
     - logrotate_install
 
-- include: configure.yaml
-  become: true
+- name: configure
+  include_tasks: configure.yaml
   tags:
     - logrotate_configure
 
 - name: handle systemd
   include_tasks: systemd.yaml
+  when:
+    - ansible_service_mgr | lower == "systemd"
   tags:
     - logrotate_systemd
 

@@ -22,7 +22,7 @@ None
 
 Tested on
 
-* Debian 9 / 10
+* Debian 9 / 10 / 11
 * Ubuntu 18.04 / 20.04
 * CentOS 7 / 8
 * Oracle Linux 7 / 8
@@ -62,6 +62,8 @@ logroate_disable_systemd: true
 logrotate_scripts:
   audit:
     path: /var/log/audit/audit.log
+    description: |
+      rotate all audit logs
     options:
       - weekly
       - rotate 4
@@ -69,7 +71,9 @@ logrotate_scripts:
       - notifempty
       - delaycompress
     scripts:
-      postrotate: /etc/init.d/auditd restart2> /dev/null
+      prerotate: systemctl stop auditd.service > /dev/null
+      postrotate: systemctl start auditd.service > /dev/null
+      foo: failed
 ```
 
 ```yaml

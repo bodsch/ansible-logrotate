@@ -1,6 +1,7 @@
 ---
 
 - name: install logrotate
+  become: true
   package:
     name: logrotate
     state: present
