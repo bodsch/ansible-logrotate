@@ -13,7 +13,7 @@ on:
       - reopened
   push:
     branches:
-      - master
+      - main
   schedule:
     - cron: "10 2 * * 0"
 
@@ -169,7 +169,7 @@ jobs:
           DISTRIBUTION: ${{ matrix.image }}
 
   publish:
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/main'
     needs:
       - arch
       - deb
@@ -180,4 +180,4 @@ jobs:
         uses: robertdebock/galaxy-action@1.2.0
         with:
           galaxy_api_key: ${{ secrets.galaxy_api_key }}
-          git_branch: master
+          git_branch: main
