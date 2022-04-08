@@ -8,7 +8,7 @@
         systemd_enabled: "{{ 'false' if logroate_disable_systemd else 'true' }}"
 
     - name: handle systemd timer unit is stopped and disabled
-      service:
+      systemd:
         name: logrotate.timer
         state: "{{ systemd_state }}"
         enabled: "{{ systemd_enabled }}"

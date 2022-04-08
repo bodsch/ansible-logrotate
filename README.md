@@ -22,11 +22,14 @@ None
 
 Tested on
 
-* Debian 9 / 10 / 11
-* Ubuntu 18.04 / 20.04
-* CentOS 7 / 8
-* Oracle Linux 7 / 8
-* Arch Linux
+* ArchLinux
+* Debian based
+    - Debian 10 / 11
+    - Ubuntu 20.04
+* RedHat based
+    - Alma Linux 8
+    - Rocky Linux 8
+    - OracleLinux 8
 
 ## usage
 
@@ -100,16 +103,20 @@ logrotate_scripts:
 see into [molecule test](molecule/default/converge.yml) and [configuration](molecule/default/group_vars/all/vars.yml)
 
 
+## Contribution
+
+Please read [Contribution](CONTRIBUTING.md)
+
+## Development,  Branches (Git Tags)
+
+The `master` Branch is my *Working Horse* includes the "latest, hot shit" and can be complete broken!
+
+If you want to use something stable, please use a [Tagged Version](https://gitlab.com/bodsch/ansible-logrotate/-/tags)!
+
+
 
 ## Tests
 
-### Testmatrix
-
-|                                | Python Version | Ansible Version |
-| :----------------------        | :------        | :------         |
-| `py37-ansible28`               | *python 3.7*   | *ansible 2.8*   |
-| `py38-ansible28`               | *python 3.8*   | *ansible 2.8*   |
-| `py38-ansible29`               | *python 3.8*   | *ansible 2.9*   |
 
 ```bash
 tox -e py38-ansible29 -- molecule test --all
@@ -142,7 +149,12 @@ tox -e py38-ansible29 -- molecule destroy --all
 ```
 
 
+## Author
+
+- Bodo Schulz
 
 ## License
 
-[Apache](https://raw.githubusercontent.com/bodsch/ansible-logrotate/master/LICENSE)
+[Apache](LICENSE)
+
+`FREE SOFTWARE, HELL YEAH!`

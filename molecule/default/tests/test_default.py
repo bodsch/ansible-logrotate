@@ -82,5 +82,10 @@ def test_files(host, files):
 
 
 def test_service(host):
-    service = host.service("logrotate.timer")
-    assert not service.is_enabled
+    """
+    """
+    timer = host.file("/usr/lib/systemd/system/logrotate.timer")
+
+    if timer.exists:
+        service = host.service("logrotate.timer")
+        assert not service.is_enabled
