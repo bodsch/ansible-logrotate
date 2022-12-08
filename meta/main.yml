@@ -9,7 +9,7 @@ galaxy_info:
   description: Role to configure logrotate scripts
 
   license: Apache
-  min_ansible_version: 2.10
+  min_ansible_version: "2.10"
 
   platforms:
     - name: ArchLinux
@@ -25,7 +25,7 @@ galaxy_info:
         - focal
     - name: EL
       versions:
-        - 8
+        - "8"
   galaxy_tags:
     - system
     - logfile

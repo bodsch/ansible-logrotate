@@ -1,12 +1,11 @@
 ---
 
 - name: update package cache
-  package:
+  ansible.builtin.package:
     update_cache: true
 
 - name: merge logrotate global configuration between defaults and custom
-  set_fact:
-    logrotate_global: "{{ logrotate_defaults_global |
-      combine( logrotate_global, recursive=True ) }}"
+  ansible.builtin.set_fact:
+    logrotate_global: "{{ logrotate_defaults_global | combine(logrotate_global, recursive=True) }}"
 
 ...

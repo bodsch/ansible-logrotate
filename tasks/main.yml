@@ -1,30 +1,30 @@
 ---
 
 - name: prepare
-  include_tasks: prepare.yaml
+  ansible.builtin.include_tasks: prepare.yaml
   tags:
     - logrotate_prepare
     - logrotate_configure
 
 - name: install
-  include_tasks: install.yaml
+  ansible.builtin.include_tasks: install.yaml
   tags:
     - logrotate_install
 
 - name: configure
-  include_tasks: configure.yaml
+  ansible.builtin.include_tasks: configure.yaml
   tags:
     - logrotate_configure
 
 - name: handle systemd
-  include_tasks: systemd.yaml
+  ansible.builtin.include_tasks: systemd.yaml
   when:
     - ansible_service_mgr | lower == "systemd"
   tags:
     - logrotate_systemd
 
 - name: create cron job
-  include_tasks: cron.yaml
+  ansible.builtin.include_tasks: cron.yaml
   tags:
     - logrotate_cron
 

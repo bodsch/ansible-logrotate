@@ -2,7 +2,7 @@
 
 - name: install logrotate
   become: true
-  package:
+  ansible.builtin.package:
     name: logrotate
     state: present
 
