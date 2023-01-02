@@ -5,13 +5,15 @@ Installs logrotate and provides an easy way to setup additional logrotate script
 specifying a list of directives.
 
 
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/bodsch/ansible-logrotate/CI/master)][ci]
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/bodsch/ansible-logrotate/main.yml?branch=main)][ci]
 [![GitHub issues](https://img.shields.io/github/issues/bodsch/ansible-logrotate)][issues]
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/bodsch/ansible-logrotate)][releases]
+[![Ansible Quality Score](https://img.shields.io/ansible/quality/50067?label=role%20quality)][quality]
 
 [ci]: https://github.com/bodsch/ansible-logrotate/actions
 [issues]: https://github.com/bodsch/ansible-logrotate/issues?q=is%3Aopen+is%3Aissue
 [releases]: https://github.com/bodsch/ansible-logrotate/releases
+[quality]: https://galaxy.ansible.com/bodsch/dovecot
 
 
 ## Requirements & Dependencies
