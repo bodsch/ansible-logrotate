@@ -13,7 +13,7 @@ specifying a list of directives.
 [ci]: https://github.com/bodsch/ansible-logrotate/actions
 [issues]: https://github.com/bodsch/ansible-logrotate/issues?q=is%3Aopen+is%3Aissue
 [releases]: https://github.com/bodsch/ansible-logrotate/releases
-[quality]: https://galaxy.ansible.com/bodsch/dovecot
+[quality]: https://galaxy.ansible.com/bodsch/logrotate
 
 
 ## Requirements & Dependencies
