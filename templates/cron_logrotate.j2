@@ -1,4 +1,6 @@
+#jinja2: trim_blocks: True, lstrip_blocks: True
 #!/usr/bin/env bash
+# {{ ansible_managed }}
 
 {% if not logroate_disable_systemd %}
 # skip in favour of systemd timer

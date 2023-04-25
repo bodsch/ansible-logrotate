@@ -18,7 +18,18 @@ specifying a list of directives.
 
 ## Requirements & Dependencies
 
-None
+Ansible Collections
+
+- [bodsch.core](https://github.com/bodsch/ansible-collection-core)
+
+```bash
+ansible-galaxy collection install bodsch.core
+```
+or
+```bash
+ansible-galaxy collection install --requirements-file collections.yml
+```
+
 
 ### Operating systems
 
