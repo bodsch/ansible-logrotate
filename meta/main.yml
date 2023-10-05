@@ -3,7 +3,6 @@
 
 galaxy_info:
   role_name: logrotate
-  namespace: bodsch
 
   author: Bodo Schulz
   description: Role to configure logrotate scripts
