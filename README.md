@@ -37,12 +37,11 @@ Tested on
 
 * ArchLinux
 * Debian based
-    - Debian 10 / 11
-    - Ubuntu 20.04
-* RedHat based
-    - Alma Linux 8
-    - Rocky Linux 8
-    - OracleLinux 8
+    - Debian 10 / 11 / 12
+    - Ubuntu 20.04 / 22.04
+
+> **RedHat-based systems are no longer officially supported! May work, but does not have to.**
+
 
 ## usage
 
@@ -128,40 +127,6 @@ If you want to use something stable, please use a [Tagged Version](https://githu
 
 
 
-## Tests
-
-
-```bash
-tox -e py38-ansible29 -- molecule test --all
-```
-
-
-### Syntactic tests
-A syntactical test checks the correctness of the created YAML files.
-
-```bash
-tox -e py38-ansible29 -- molecule lint --all
-```
-
-### Test without deleting the test instance
-
-```bash
-tox -e py38-ansible29 -- molecule converge --all
-```
-
-### Validierung
-
-```bash
-tox -e py38-ansible29 -- molecule verify --all
-```
-
-## Delete the Docker Container
-
-```bash
-tox -e py38-ansible29 -- molecule destroy --all
-```
-
-
 ## Author
 
 - Bodo Schulz
@@ -170,4 +135,4 @@ tox -e py38-ansible29 -- molecule destroy --all
 
 [Apache](LICENSE)
 
-`FREE SOFTWARE, HELL YEAH!`
+**FREE SOFTWARE, HELL YEAH!**
